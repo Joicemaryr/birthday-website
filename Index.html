@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Happy Birthday</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom, #ffe4f2, #fff0f5);
+      font-family: 'Arial', sans-serif;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      height: 100vh;
+    }
+    h2, input, button { font-size: 1.2em; }
+    #inputSection { text-align: center; }
+    input, button {
+      padding: 10px; margin-top: 10px;
+    }
+    button {
+      background-color: #ff69b4;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    #greeting {
+      font-size: 2em;
+      color: #e91e63;
+      text-align: center;
+      z-index: 10;
+    }
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: pink;
+      transform: rotate(45deg);
+      animation: float 10s infinite ease-in;
+    }
+    .heart::before, .heart::after {
+      content: '';
+      position: absolute;
+      width: 20px; height: 20px;
+      background-color: pink;
+      border-radius: 50%;
+    }
+    .heart::before { top: -10px; left: 0; }
+    .heart::after { left: -10px; top: 0; }
+    @keyframes float {
+      0% {
+        transform: translateY(100vh) rotate(45deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-10vh) rotate(45deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="inputSection">
+    <h2>What's your name?</h2>
+    <input type="text" id="nameInput" placeholder="Enter your name" />
+    <br />
+    <button onclick="showGreeting()">Done</button>
+  </div>
+
+  <div id="greeting"></div>
+
+  <audio id="bgMusic" autoplay loop>
+    <source src="https://www.bensound.com/bensound-music/bensound-sunny.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <script>
+    function showGreeting() {
+      const name = document.getElementById("nameInput").value;
+      if (name.trim() !== "") {
+        document.getElementById("inputSection").style.display = "none";
+        document.getElementById("greeting").innerText = `💖 Happy Birthday dear ${name}! 🎂`;
+        for (let i = 0; i < 30; i++) {
+          let heart = document.createElement("div");
+          heart.className = "heart";
+          heart.style.left = Math.random() * 100 + "vw";
+          heart.style.animationDuration = 5 + Math.random() * 5 + "s";
+          document.body.appendChild(heart);
+        }
+        const music = document.getElementById("bgMusic");
+        music.play().catch(() => {
+          alert("Click anywhere to enable music 🎵");
+          document.body.addEventListener("click", () => music.play());
+        });
+      } else {
+        alert("Please enter your name!");
+      }
+    }
+  </script>
+
+</body>
+  </html>
